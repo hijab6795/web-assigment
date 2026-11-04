@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hijab's Café</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --cream: #fff8ef;
+            --brown: #5b3926;
+            --dark-brown: #392317;
+            --orange: #c78350;
+            --light-brown: #f1dfce;
+            --text: #352820;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: var(--cream);
+            color: var(--text);
+            line-height: 1.6;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button, input, select, textarea {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        section {
+            padding: 60px 8%;
+            scroll-margin-top: 100px;
+        }
+
+        h2 {
+            text-align: center;
+            color: var(--brown);
+            margin-bottom: 25px;
+            font-size: 2rem;
+        }
+
+        /* HEADER */
+
+        header {
+            background: var(--brown);
+            color: white;
+            padding: 15px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        nav a:hover {
+            color: #ffd6ad;
+        }
+
+        .theme-button,
+        .filter-button,
+        .read-button {
+            border: none;
+            border-radius: 6px;
+            padding: 10px 15px;
+            background: var(--orange);
+            color: white;
+        }
+
+        /* HERO */
+
+        .hero {
+            min-height: 450px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            background:
+                linear-gradient(rgba(30, 18, 10, 0.65),
+                                rgba(30, 18, 10, 0.65)),
+                url("https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1600&q=80")
+                center/cover no-repeat;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.3rem, 5vw, 4rem);
+            margin-bottom: 15px;
+        }
+
+        .hero p {
+            margin-bottom: 18px;
+            font-size: 1.1rem;
+        }
+
+        .main-button {
+            display: inline-block;
+            background: var(--orange);
+            color: white;
+            padding: 12px 22px;
+            border: none;
+            border-radius: 7px;
+            font-weight: bold;
+        }
+
+        .main-button:hover {
+            background: var(--brown);
+        }
+
+        #opening-status {
+            width: fit-content;
+            margin: 15px auto;
+            padding: 8px 15px;
+            border-radius: 6px;
+            background: white;
+            font-weight: bold;
+        }
+
+        .status-open {
+            color: green;
+        }
+
+        .status-closed {
+            color: #c02020;
+        }
+
+        /* ABOUT */
+
+        .about-content {
+            max-width: 850px;
+            margin: auto;
+            text-align: center;
+        }
+
+        .about-content p {
+            margin-bottom: 15px;
+        }
+
+        #extra-story {
+            display: none;
+        }
+
+        .read-button {
+            background: var(--brown);
+        }
+
+        /* MENU AND FILTER */
+
+        #menu, #hours {
+            background: var(--light-brown);
+        }
+
+        .menu-description {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .filter-buttons {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .filter-button {
+            background: var(--brown);
+        }
+
+        .filter-button:hover,
+        .filter-button.active {
+            background: var(--orange);
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        table {
+            width: 100%;
+            min-width: 500px;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 15px;
+            border-bottom: 1px solid #ead9c8;
+        }
+
+        th {
+            background: var(--brown);
+            color: white;
+        }
+
+        .order-checkbox {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--brown);
+        }
+
+        #total {
+            text-align: center;
+            color: var(--brown);
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin-top: 22px;
+        }
+
+        .menu-note {
+            text-align: center;
+            font-size: 0.9rem;
+            margin-top: 8px;
+        }
+
+        /* SPECIAL OFFER */
+
+        .offer-box {
+            max-width: 750px;
+            margin: auto;
+            padding: 30px;
+            text-align: center;
+            background: var(--brown);
+            color: white;
+            border-radius: 12px;
+        }
+
+        .offer-box h2,
+        .offer-price {
+            color: #ffd6ad;
+        }
+
+        .offer-price {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        /* HOURS */
+
+        .hours-table {
+            max-width: 650px;
+            margin: auto;
+        }
+
+        /* CONTACT FORM */
+
+        .form-container {
+            max-width: 750px;
+            margin: auto;
+            padding: 30px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label,
+        .field-label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 7px;
+        }
+
+        .form-group input:not([type="checkbox"]):not([type="radio"]),
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #cdb8a7;
+            border-radius: 6px;
+            background: white;
+            color: #352820;
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .checkbox-line {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            margin: 9px 0;
+        }
+
+        .checkbox-line input {
+            accent-color: var(--brown);
+        }
+
+        .small-note {
+            font-size: 0.9rem;
+            color: #6d5a4e;
+            margin-top: 5px;
+        }
+
+        #char-count {
+            text-align: right;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        #form-message {
+            margin-top: 20px;
+            padding: 12px;
+            border-radius: 6px;
+            overflow-wrap: anywhere;
+        }
+
+        .message-success {
+            background: #e2f5e8;
+            color: #155d2d;
+        }
+
+        .message-error {
+            background: #fde8e8;
+            color: #9b1c1c;
+        }
+
+        /* FOOTER */
+
+        footer {
+            text-align: center;
+            padding: 25px 8%;
+            background: var(--dark-brown);
+            color: white;
+        }
+
+        footer a {
+            color: #ffd6ad;
+        }
+
+        /* DARK MODE */
+
+        body.dark-mode {
+            background: #211d1a;
+            color: #f6eee7;
+        }
+
+        body.dark-mode h2 {
+            color: #f2c49e;
+        }
+
+        body.dark-mode #menu,
+        body.dark-mode #hours {
+            background: #302720;
+        }
+
+        body.dark-mode .form-container,
+        body.dark-mode .table-wrapper {
+            background: #39312b;
+            color: #f6eee7;
+        }
+
+        body.dark-mode td {
+            border-color: #5c4a3e;
+        }
+
+        body.dark-mode .form-group input:not([type="checkbox"]):not([type="radio"]),
+        body.dark-mode .form-group select,
+        body.dark-mode .form-group textarea {
+            background: #29231f;
+            color: white;
+            border-color: #806b5b;
+        }
+
+        body.dark-mode #total {
+            color: #f2c49e;
+        }
+
+        body.dark-mode .small-note,
+        body.dark-mode #char-count {
+            color: #e3c9b5;
+        }
+
+        body.dark-mode .read-button {
+            background: var(--orange);
+        }
+
+        /* MOBILE RESPONSIVE */
+
+        @media (max-width: 700px) {
+            header {
+                justify-content: center;
+                text-align: center;
+            }
+
+            nav {
+                justify-content: center;
+            }
+
+            section {
+                padding: 45px 5%;
+            }
+
+            .form-container {
+                padding: 20px;
+            }
+
+            .hero {
+                min-height: 400px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+
+    <header>
+        <a href="#home" class="logo">☕ Hijab's Café</a>
+
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#about">About</a>
+            <a href="#menu">Menu</a>
+            <a href="#offers">Offers</a>
+            <a href="#hours">Hours</a>
+            <a href="#contact">Contact</a>
+
+            <button type="button" id="theme-toggle" class="theme-button">
+                Toggle Light/Dark Mode
+            </button>
+        </nav>
+    </header>
+
+    <!-- HOME -->
+
+    <section class="hero" id="home">
+        <div>
+            <h1>Good Coffee. Good Mood.</h1>
+            <p>Your cozy corner for coffee, fresh pastries and happy moments.</p>
+
+            <p id="opening-status" aria-live="polite">
+                Checking opening hours...
+            </p>
+
+            <a href="#menu" class="main-button">Explore Our Menu</a>
+        </div>
+    </section>
+
+    <!-- ABOUT AND READ MORE -->
+
+    <section id="about">
+        <h2>About Our Café</h2>
+
+        <div class="about-content">
+            <article>
+                <p>
+                    Welcome to Hijab's Café, a cozy place where every cup of
+                    coffee brings happiness. We serve freshly prepared drinks,
+                    delicious pastries and sweet treats in a relaxing atmosphere.
+                </p>
+
+                <p id="extra-story">
+                    Our goal is to make every visit special. Whether you are
+                    meeting friends, studying, working or taking a break, we
+                    want you to feel comfortable and welcome. Choose your
+                    favorite treat and enjoy a peaceful café experience.
+                </p>
+
+                <button type="button" id="read-more-button" class="read-button">
+                    Read More
+                </button>
+            </article>
+        </div>
+    </section>
+
+    <!-- MENU, CATEGORY FILTER AND ORDER TOTAL -->
+
+    <section id="menu">
+        <h2>Our Menu</h2>
+
+        <p class="menu-description">
+            Select your favorite items and see your total instantly.
+        </p>
+
+        <div class="filter-buttons">
+            <button type="button" class="filter-button active"
+                    data-filter="all">All</button>
+
+            <button type="button" class="filter-button"
+                    data-filter="drinks">Drinks</button>
+
+            <button type="button" class="filter-button"
+                    data-filter="pastries">Pastries</button>
+        </div>
+
+        <div class="table-wrapper">
+            <table id="menu-table">
+                <thead>
+                    <tr>
+                        <th>Select</th>
+                        <th>Item</th>
+                        <th>Category</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr data-category="drinks">
+                        <td>
+                            <input type="checkbox" class="order-checkbox"
+                                   data-price="650"
+                                   aria-label="Select Classic Latte">
+                        </td>
+                        <td>Classic Latte</td>
+                        <td>Drinks</td>
+                        <td>Rs. 650</td>
+                    </tr>
+
+                    <tr data-category="pastries">
+                        <td>
+                            <input type="checkbox" class="order-checkbox"
+                                   data-price="420"
+                                   aria-label="Select Butter Croissant">
+                        </td>
+                        <td>Butter Croissant</td>
+                        <td>Pastries</td>
+                        <td>Rs. 420</td>
+                    </tr>
+
+                    <tr data-category="pastries">
+                        <td>
+                            <input type="checkbox" class="order-checkbox"
+                                   data-price="550"
+                                   aria-label="Select Chocolate Cake">
+                        </td>
+                        <td>Chocolate Cake</td>
+                        <td>Pastries</td>
+                        <td>Rs. 550</td>
+                    </tr>
+
+                    <tr data-category="drinks">
+                        <td>
+                            <input type="checkbox" class="order-checkbox"
+                                   data-price="350"
+                                   aria-label="Select Espresso">
+                        </td>
+                        <td>Espresso</td>
+                        <td>Drinks</td>
+                        <td>Rs. 350</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p id="total" aria-live="polite">Total: Rs. 0</p>
+        <p class="menu-note">Demo calculator only. No payment is processed.</p>
+    </section>
+
+    <!-- OFFERS -->
+
+    <section id="offers">
+        <div class="offer-box">
+            <h2>Special Café Offer</h2>
+            <p>Enjoy a coffee with your favorite pastry.</p>
+            <p class="offer-price">Combo Deal: Rs. 899</p>
+            <p>A little treat makes every day better!</p>
+        </div>
+    </section>
+
+    <!-- OPENING HOURS -->
+
+    <section id="hours">
+        <h2>Opening Hours</h2>
+
+        <div class="table-wrapper hours-table">
+            <table id="hours-table">
+                <thead>
+                    <tr>
+                        <th>Day</th>
+                        <th>Opening Time</th>
+                        <th>Closing Time</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr><td>Monday</td><td>8:00 AM</td><td>10:00 PM</td></tr>
+                    <tr><td>Tuesday</td><td>8:00 AM</td><td>10:00 PM</td></tr>
+                    <tr><td>Wednesday</td><td>8:00 AM</td><td>10:00 PM</td></tr>
+                    <tr><td>Thursday</td><td>8:00 AM</td><td>10:00 PM</td></tr>
+                    <tr><td>Friday</td><td>8:00 AM</td><td>11:00 PM</td></tr>
+                    <tr><td>Saturday</td><td>9:00 AM</td><td>11:00 PM</td></tr>
+                    <tr><td>Sunday</td><td>9:00 AM</td><td>10:00 PM</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- CONTACT AND FEEDBACK FORM -->
+
+    <section id="contact">
+        <h2>Contact & Booking</h2>
+
+        <div class="form-container">
+            <form id="contact-form">
+
+                <div class="form-group">
+                    <label for="username">Full Name</label>
+                    <input type="text" id="username" name="username"
+                           placeholder="Enter your full name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email"
+                           placeholder="Enter your email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="booking-date">Booking Date</label>
+                    <input type="date" id="booking-date" name="booking-date">
+                </div>
+
+                <div class="form-group">
+                    <label for="guests">Number of Guests</label>
+                    <select id="guests" name="guests">
+                        <option value="1">1 Guest</option>
+                        <option value="2" selected>2 Guests</option>
+                        <option value="3">3 Guests</option>
+                        <option value="4">4 Guests</option>
+                        <option value="5">5 Guests</option>
+                        <option value="6">6 or more Guests</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <span class="field-label">Seating Preference</span>
+
+                    <label class="checkbox-line">
+                        <input type="radio" name="seating"
+                               value="Indoor" checked>
+                        Indoor Seating
+                    </label>
+
+                    <label class="checkbox-line">
+                        <input type="radio" name="seating"
+                               value="Outdoor">
+                        Outdoor Seating
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label for="birth-year">Birth Year</label>
+                    <input type="text" id="birth-year" name="birth-year"
+                           inputmode="numeric" placeholder="Example: 2005">
+
+                    <p class="small-note">
+                        Enter a four-digit year to check possible discount eligibility.
+                    </p>
+                </div>
+
+                <div class="form-group">
+                    <span class="field-label">Discount Options</span>
+
+                    <label class="checkbox-line">
+                        <input type="checkbox" id="student-discount">
+                        I am a student and want to request a student discount.
+                    </label>
+
+                    <p class="small-note">
+                        Student status needs separate verification. This demo
+                        flags a possible senior discount for age 60 and above.
+                    </p>
+                </div>
+
+                <div class="form-group">
+                    <label for="special-notes">Message / Special Notes</label>
+
+                    <textarea id="special-notes" name="special-notes"
+                              maxlength="100"
+                              placeholder="Write your message (maximum 100 characters)"></textarea>
+
+                    <p id="char-count" aria-live="polite">
+                        100 characters remaining
+                    </p>
+                </div>
+
+                <button type="submit" class="main-button">
+                    Submit Feedback
+                </button>
+
+                <p id="form-message" aria-live="polite" hidden></p>
+            </form>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+
+    <footer>
+        <p>&copy; 2026 Hijab's Café. All rights reserved.</p>
+        <p>Made with love and coffee ☕</p>
+        <p>
+            Follow us on
+            <a href="https://www.instagram.com/"
+               target="_blank" rel="noopener noreferrer">Instagram</a>
+        </p>
+    </footer>
+
+    <!-- JAVASCRIPT FILE -->
+    <script src="script.js"></script>
+
+</body>
+</html>
